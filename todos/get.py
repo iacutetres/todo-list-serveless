@@ -10,7 +10,8 @@ def get(event, context):
     table = dynamodb.Table(os.environ['DYNAMODB_TABLE'])
 
     # fetch todo from the database f1
-    result = table.get_item(
+    # change to f1
+    result = table.get_item( 
         Key={
             'id': event['pathParameters']['id']
         }
