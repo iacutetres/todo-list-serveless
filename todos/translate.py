@@ -29,7 +29,7 @@ def translateText(data,source,target):
         logger.error(response)
         raise Exception("[ErrorMessageTranslate]: " + str(e))
         
-# method translate        
+# method translate1        
 def translate(event, context):
     table = dynamodb.Table(os.environ['DYNAMODB_TABLE'])
     lang = event['pathParameters']['lang']
