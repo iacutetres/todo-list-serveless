@@ -23,7 +23,7 @@ def comprehendText(data):
 
 def translateText(data,source,target):
     try:
-        response=translateaws.translate_text(Text = data,SourceLanguageCode=source, TargetLanguageCode=target)
+        response=translateaws.translate_text(Text = data,SourceLanguageCode='auto', TargetLanguageCode=target)
         return response['TranslatedText']  
     except Exception as e:
         logger.error(response)
@@ -42,11 +42,11 @@ def translate(event, context):
         }
     )
     
-    sourceLang = comprehendText(result['Item']['text'])
-    text = translateText(result['Item']['text'],sourceLang, lang)
+    # sourceLang = comprehendText(result['Item']['text'])
+    text = translateText(result['Item']['text'],None, lang)
     r=result['Item']
     # python object to be appended
-    l={'lang':lang,'detectedLang':sourceLang,'text':text}
+    l={'lang':lang,'detectedLang':'auto','text':text}
     # appending the data
     r.update(l)
  
