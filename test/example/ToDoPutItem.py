@@ -6,7 +6,7 @@ import time
 def put_todo(text, id, dynamodb=None):
     if not dynamodb:
         dynamodb = boto3.resource(
-            'dynamodb', endpoint_url="http://localhost:8000")
+            'dynamodb', region_name='us-east-1', endpoint_url="http://localhost:8000")
 
     table = dynamodb.Table('todoTable')
     timestamp = str(time.time())
