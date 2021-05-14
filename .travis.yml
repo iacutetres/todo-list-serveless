@@ -17,6 +17,7 @@ install:
   - npm install -g serverless
 # command to run tests
 before_script:
+  - nvm use 0.10
   - pytest test/unit/try.py -v
   - pytest test/example/TestToDo.py -v
 script:
