@@ -11,7 +11,7 @@ services:
 # command to install dependencies
 before_install:
   - python -m pip install --upgrade pip
-  - docker run -p 8000:8000 amazon/dynamodb-local
+  - docker run -d -p 8000:8000 amazon/dynamodb-local
 install:
   - pip install -r requirements.txt
   - pip install -U pytest
