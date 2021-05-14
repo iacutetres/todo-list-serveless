@@ -1,4 +1,3 @@
-
 import os
 import json
 import logging
@@ -15,25 +14,30 @@ logger.setLevel(logging.INFO)
 
 def comprehendText(data):
     try:
-        response=comprehend.detect_dominant_language(Text = data)
+        response = comprehend.detect_dominant_language(Text=data)
         return response['Languages'][0]['LanguageCode']
     except Exception as e:
-        logger.error(response)
+        logger.error(e)
         raise Exception("[ErrorMessageComprehend]: " + str(e))
 
-def translateText(data,source,target):
+
+def translateText(data, source, target):
     try:
-        response=translateaws.translate_text(Text = data,SourceLanguageCode='auto', TargetLanguageCode=target)
-        return response['TranslatedText']  
+        response = translateaws.translate_text(
+            Text=data,
+            SourceLanguageCode='auto',
+            TargetLanguageCode=target
+            )
+        return response['TranslatedText']
     except Exception as e:
-        logger.error(response)
+        logger.error(e)
         raise Exception("[ErrorMessageTranslate]: " + str(e))
-        
-# method translate1        
+
+
+# method translate1
 def translate(event, context):
     table = dynamodb.Table(os.environ['DYNAMODB_TABLE'])
     lang = event['pathParameters']['lang']
-    
 
     # fetch todo from the database
     result = table.get_item(
@@ -41,15 +45,14 @@ def translate(event, context):
             'id': event['pathParameters']['id']
         }
     )
-    
     # sourceLang = comprehendText(result['Item']['text'])
-    text = translateText(result['Item']['text'],None, lang)
-    r=result['Item']
+    # None sourceLang, uses auto
+    text = translateText(result['Item']['text'], None, lang)
+    r = result['Item']
     # python object to be appended
-    l={'lang':lang,'detectedLang':'auto','text':text}
+    appended = {'lang': lang, 'detectedLang': 'auto', 'text': text}
     # appending the data
-    r.update(l)
- 
+    r.update(appended)
     response = {
         "statusCode": 200,
         "body": json.dumps(r,
