@@ -6,13 +6,16 @@ branches:
   only:
   - develop
   - master
+services:
+  - docker
 # command to install dependencies
 before_install:
   - python -m pip install --upgrade pip
+  - docker run -p 8000:8000 amazon/dynamodb-local
 install:
   - pip install -r requirements.txt
   - pip install -U pytest
- 
 # command to run tests
 script:
   - pytest test/unit/try.py -v
+  - pytest test/example/TestToDo.py -v
