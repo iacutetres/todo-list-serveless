@@ -13,13 +13,15 @@ before_install:
  # - docker run -d -p 8000:8000 amazon/dynamodb-local
 install:
   # JavaScript test requirements
-  - sudo apt-get install nodejs
-  - sudo apt-get install npm
-  - sudo apt install build-essential
+   - curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+   - sudo apt-get install -y nodejs
+  #- sudo apt-get install nodejs
+   - sudo apt-get install -y npm
+  #- sudo apt install build-essential
   #- curl https://www.npmjs.com/install.sh | sudo sh
   #- sudo apt-get install -y npm
   #- sudo apt-get install -y nodejs
-  - npm install npm@latest -g
+  #- npm install npm@latest -g
   #- pip install -r requirements.txt
   #- pip install -U pytest
   - npm install -g serverless
