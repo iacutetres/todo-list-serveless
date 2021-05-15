@@ -5,8 +5,8 @@ python:
 branches:
   only:
   - develop
-services:
-  - docker
+#services:
+#  - docker
 # command to install dependencies
 before_install:
   #- python -m pip install --upgrade pip
@@ -14,8 +14,9 @@ before_install:
 install:
   # JavaScript test requirements
   - curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
-  - sudo apt-get install -y nodejs
-  - sudo n latest
+  - sudo apt install --assume-yes nodejs 
+  #- sudo apt-get install -y nodejs
+  #- sudo n latest
   #- sudo apt-get install -y npm
   #- pip install -r requirements.txt
   #- pip install -U pytest
@@ -25,7 +26,7 @@ before_script:
  # - pytest test/unit/try.py -v
 #  - pytest test/example/TestToDo.py -v
 script:
-  #- python --version
+  - npm -v
   - nodejs -v
   - node --version
   - serverless deploy -s pre
