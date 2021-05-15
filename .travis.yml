@@ -5,37 +5,25 @@ python:
 branches:
   only:
   - develop
-#services:
-#  - docker
+services:
+  - docker
 # command to install dependencies
 before_install:
-  #- python -m pip install --upgrade pip
- # - docker run -d -p 8000:8000 amazon/dynamodb-local
+  - python -m pip install --upgrade pip
+  - docker run -d -p 8000:8000 amazon/dynamodb-local
 install:
-  # JavaScript test requirements
+  # install nodejs 16.x
   - curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
   - sudo apt install --assume-yes nodejs 
+   # install node 12.18.0
   - nvm install 12.18.0
-  #- npm cache clean -f
-  #- npm install -g n
-  #- wget https://nodejs.org/dist/v12.13.1/node-v12.13.1-linux-x64.tar.xz
-  #- sudo apt-get install xz-utils
-  #- tar -C /usr/local –strip-components 1 -xJf node-v12.13.1-linux-x64.tar.xz
-  
-  #- sudo apt-get install -y nodejs
-  #- sudo n latest
-  #- sudo apt-get install -y npm
-  #- pip install -r requirements.txt
-  #- pip install -U pytest
+  - pip install -r requirements.txt
+  - pip install -U pytest
   - npm install -g serverless
 # command to run tests
 before_script:
- # - pytest test/unit/try.py -v
-#  - pytest test/example/TestToDo.py -v
+  - pytest test/unit/try.py -v
+  - pytest test/example/TestToDo.py -v
 script:
-  - nvm list
   - nvm use 12.18.0
-  - npm -v
-  - nodejs -v
-  - node --version
   - serverless deploy -s pre
