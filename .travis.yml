@@ -9,22 +9,23 @@ services:
   - docker
 # command to install dependencies
 before_install:
-  - python -m pip install --upgrade pip
+  #- python -m pip install --upgrade pip
  # - docker run -d -p 8000:8000 amazon/dynamodb-local
 install:
   # JavaScript test requirements
-  - sudo add-apt-repository -y ppa:chris-lea/node.js
-  - sudo apt-get install nodejs
-  - sudo npm install -g n
-  - sudo n latest
-  - pip install -r requirements.txt
-  - pip install -U pytest
+  - sudo apt-get install -y npm
+  - sudo apt install build-essential
+  - sudo apt-get install -y nodejs
+  - npm install -g npm@latest
+  #- pip install -r requirements.txt
+  #- pip install -U pytest
   - npm install -g serverless
 # command to run tests
 before_script:
  # - pytest test/unit/try.py -v
 #  - pytest test/example/TestToDo.py -v
 script:
-  - python --version
+  #- python --version
+  - nodejs -v
   - node --version
   - serverless deploy -s pre
