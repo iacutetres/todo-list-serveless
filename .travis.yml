@@ -23,7 +23,14 @@ install:
 # command to run tests
 before_script:
   - pytest test/unit/try.py -v
+  # unitarios
   - pytest test/example/TestToDo.py -v
+  # calidad de codigo
+  - flake8 todos/*.py
+  # complejidad CC
+  - radon cc todos/*.py -as
+  # seguridad
+  -  bandit todos/*.py -v
 script:
   - nvm use 12.18.0
   - serverless deploy -s pre
