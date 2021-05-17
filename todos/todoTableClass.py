@@ -1,3 +1,4 @@
+# flake8: noqa
 import boto3
 from botocore.exceptions import ClientError
 import time
