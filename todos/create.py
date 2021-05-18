@@ -1,10 +1,9 @@
 import json
 import logging
 import os
-import time
-import uuid
-
+import sys
 import boto3
+sys.path.append(".")
 dynamodb = boto3.resource('dynamodb')
 
 
@@ -13,21 +12,13 @@ def create(event, context):
     if 'text' not in data:
         logging.error("Validation Failed")
         raise Exception("Couldn't create the todo item.")
-    timestamp = str(time.time())
+    tablename = os.environ['DYNAMODB_TABLE']
 
-    table = dynamodb.Table(os.environ['DYNAMODB_TABLE'])
-
-    item = {
-        'id': str(uuid.uuid1()),
-        'text': data['text'],
-        'checked': False,
-        'createdAt': timestamp,
-        'updatedAt': timestamp,
-    }
-
-    # write the todo to the database
-    table.put_item(Item=item)
-
+    from todoTableClass import todoTable
+    # constructor
+    create = todoTable(tablename, dynamodb)
+    # call function put_todo  with two results
+    item, response = create.put_todo(data['text'], None)
     # create a response
     response = {
         "statusCode": 200,

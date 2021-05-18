@@ -1,8 +1,7 @@
-# flake8: noqa
 import boto3
-from botocore.exceptions import ClientError
 import time
 import uuid
+from botocore.exceptions import ClientError
 
 
 class todoTable(object):
@@ -13,7 +12,7 @@ class todoTable(object):
             # In this case dynamodb is the name of the docker container
             # when all the containers are in the same network.
             dynamodb = boto3.resource(
-                'dynamodb', endpoint_url='http://dynamodb:8000') 
+                'dynamodb', endpoint_url='http://localhost:8000')
         self.dynamodb = dynamodb
 
     def create_todo_table(self):
@@ -49,17 +48,92 @@ class todoTable(object):
         table = self.dynamodb.Table(self.tableName)
         table.delete()
 
-#    def put_todo(self, text, id=None):
-#"""  A completar por el alumno. Pista: todos/ToDoPutItem.py """
+    def put_todo(self, text, id=None):
+        table = self.dynamodb.Table(self.tableName)
+        timestamp = str(time.time())
 
-#    def get_todo(self, id):
-#"""  A completar por el alumno. Pista: todos/ToDoGetItem.py """
+        # if id null, generate uuid
+        if id is None:
+            id = str(uuid.uuid1())
 
-#    def scan_todo(self):
-#"""  A completar por el alumno. Pista: todos/ToDoListItems.py """
+        try:
+            item = {
+                'id': id,
+                'text': text,
+                'checked': False,
+                'createdAt': timestamp,
+                'updatedAt': timestamp
+            }
+            response = table.put_item(
+                Item=item)
 
-#    def update_todo(self, text, id, checked):
-#"""  A completar por el alumno. Pista: todos/ToDoUpdateItem.py """
+        except ClientError as e:
+            print("ERROR ClientError:", e.response['Error']['Message'])
+        else:
+            return item, response
 
-#    def delete_todo(self, id):
-#"""  A completar por el alumno. Pista: todos/ToDoDeleteItem.py """
+    def get_todo(self, id):
+        table = self.dynamodb.Table(self.tableName)
+
+        try:
+            response = table.get_item(
+                Key={
+                    'id': id
+                }
+            )
+        except ClientError as e:
+            print(e.response['Error']['Message'])
+        else:
+            return response
+
+    def scan_todo(self):
+        table = self.dynamodb.Table(self.tableName)
+
+        try:
+            # fetch all todos from the database
+            response = table.scan()
+
+        except ClientError as e:
+            print(e.response['Error']['Message'])
+        else:
+            return response
+
+    def update_todo(self, text, id, checked):
+        table = self.dynamodb.Table(self.tableName)
+        timestamp = str(time.time())
+
+        try:
+            response = table.update_item(
+                Key={
+                    'id': id
+                },
+                ExpressionAttributeNames={
+                    '#todo_text': 'text',
+                },
+                ExpressionAttributeValues={
+                    ':text': text,
+                    ':checked': checked,
+                    ':updatedAt': timestamp,
+                },
+                UpdateExpression='SET #todo_text = :text, '
+                                 'checked = :checked, '
+                                 'updatedAt = :updatedAt',
+                ReturnValues='ALL_NEW',
+            )
+        except ClientError as e:
+            print(e.response['Error']['Message'])
+        else:
+            return response['Attributes']
+
+    def delete_todo(self, id):
+        table = self.dynamodb.Table(self.tableName)
+        try:
+            response = table.delete_item(
+                Key={
+                    'id': id
+                }
+            )
+        except ClientError as e:
+            print(e.response['Error']['Message'])
+        else:
+            return response
