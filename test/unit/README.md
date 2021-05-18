@@ -1,4 +1,4 @@
-# Pruebas unitarias en ficheros independientes de los métodos de acceso a la base de datos.
+# Pruebas unitarias Sobre el metodo GET
 
 En este directorio se disponibilizan una serie de métodos de acceso a la base de datos de DynamoDB de manera independiente y unas pruebas unitarias asociadas.
 Dichas pruebas unitarias ejecutan contra la librería moto y contra una imagen de docker de DynamoDB levantada en un contexto local.
@@ -71,7 +71,7 @@ rootdir: /home/ec2-user/environment/todo-list-serveless/test/unit
 plugins: cov-2.12.0
 collected 2 items                                                                                                                         
 
-TestToDo.py ..                                                                                                                      [100%]
+TestToDo.py ..                                                                                      [100%]
 
 ============================================================ warnings summary =============================================================
 
