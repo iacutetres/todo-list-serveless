@@ -3,7 +3,6 @@ import time
 import uuid
 from botocore.exceptions import ClientError
 
-
 class todoTable(object):
 
     def __init__(self, table, dynamodb=None):
