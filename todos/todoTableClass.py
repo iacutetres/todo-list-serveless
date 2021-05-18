@@ -12,7 +12,7 @@ class todoTable(object):
             # In this case dynamodb is the name of the docker container
             # when all the containers are in the same network.
             dynamodb = boto3.resource(
-                'dynamodb', endpoint_url='http://localhost:8000')
+                'dynamodb', region='us-east-1', endpoint_url='http://localhost:8000')
         self.dynamodb = dynamodb
 
     def create_todo_table(self):
