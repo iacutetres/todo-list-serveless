@@ -147,3 +147,8 @@ Borrar todos los dockers:
 docker rm -vf $(docker ps -a -q)
 docker rmi -f $(docker images -a -q)
 ```
+
+## Travis && serverless
+
+En la fase PRE usamos Travis para realizar las pruebas unitarias antes de desplegar sobre serverless.
+
