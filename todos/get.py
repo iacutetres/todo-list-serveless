@@ -1,3 +1,4 @@
+# flake8: noqa
 import os
 import json
 
@@ -8,11 +9,7 @@ dynamodb = boto3.resource('dynamodb')
 
 def get(event, context):
     table = dynamodb.Table(os.environ['DYNAMODB_TABLE'])
-
-    # fetch todo from the database f1
-    # change to f1__
-    # anohter change to f1__
-    result = table.get_item( 
+    result = table.get_item(
         Key={
             'id': event['pathParameters']['id']
         }
