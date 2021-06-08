@@ -119,15 +119,16 @@ Y ejecutar el test unitario:
 ```bash
 pytest test/unit/TestToDo.py -v
 
-========================================================== test session starts ==============================================
+============================== test session starts ==============================================
 platform linux -- Python 3.7.9, pytest-6.2.4, py-1.10.0, pluggy-0.13.1 -- /usr/bin/python3
 cachedir: .pytest_cache
 rootdir: /home/ec2-user/environment/todo-list-serveless
 plugins: cov-2.12.0
 collected 2 items                                                                                                                       
 
-test/unit/TestToDo.py::TestDatabaseFunctions::test_put_todo_local PASSED                                                [ 50%]
-test/unit/TestToDo.py::TestDatabaseFunctions::test_put_todo_mock PASSED                                                 [100%]
+test/unit/TestToDo.py::TestDatabaseFunctions::test_put_todo_local PASSED                    [ 50%]
+test/unit/TestToDo.py::TestDatabaseFunctions::test_put_todo_mock PASSED                     [100%]
+======================================= 2 passed, 5 warnings in 6.61s ===================
 ```
 
 Y los otros test:
