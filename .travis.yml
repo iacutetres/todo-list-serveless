@@ -5,14 +5,31 @@ python:
 branches:
   only:
   - develop
-  - master
+services:
+  - docker
 # command to install dependencies
 before_install:
   - python -m pip install --upgrade pip
+  - docker run -d -p 8000:8000 amazon/dynamodb-local
 install:
+  # install nodejs 16.x
+  - curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+  - sudo apt install --assume-yes nodejs 
+   # install node 12.18.0
+  - nvm install 12.18.0
   - pip install -r requirements.txt
   - pip install -U pytest
- 
+  - npm install -g serverless
 # command to run tests
+before_script:
+  # unitarios
+  - pytest test/unit/TestToDo.py -v
+  # calidad de codigo
+  - flake8 todos/*.py
+  # complejidad CC
+  - radon cc todos/*.py -as
+  # seguridad
+  - bandit todos/*.py -v
 script:
-  - pytest test/unit/try.py -v
+  - nvm use 12.18.0
+  - serverless deploy -s pre
