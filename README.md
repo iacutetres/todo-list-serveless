@@ -2,65 +2,23 @@
 
 Este ejemplo demuestra cómo configurar un [Servicios Web RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer#Applied_to_web_services) que le permite crear, listar, obtener, actualizar y borrar listas de Tareas pendientes(ToDo). DynamoDB se utiliza para persistir los datos.
 
-Este ejemplo está obtenido del [repositorio de ejemplos](https://github.com/serverless/examples/tree/master/aws-python-rest-api-with-dynamodb) de Serverless Framework. Debido a que el objetivo de la práctica es implementar una serie de Pipelines de CI/CD de diferente manera, el objetivo principal del alumno no será codificar desde cero un servicio. Por eso se ha elegido este caso que aunque no es excesivamente complejo, si representa un reto en determinados puntos, al ser un ecosistema al que probablemente el alumno no estará acostumbrado.
+Este ejemplo está obtenido del [repositorio de ejemplo de la práctica 1](https://github.com/rgaleanog/todo-list-serverless.git) de Serverless Framework.
 
-## Estructura
+## Requisitos previas
 
-Este repositorio consta de directorio separado para todas las operaciones de la lista de ToDos en Python. Para cada operación existe exactamente un fichero, por ejemplo "todos/delete.py". En cada uno de estos archivos hay exactamente una función definida.
-
-La idea del directorio `todos` es que en caso de que se quiera crear un servicio que contenga múltiples recursos, por ejemplo, usuarios, notas, comentarios, se podría hacer en el mismo servicio. Aunque esto es ciertamente posible, se podría considerar la creación de un servicio separado para cada recurso. Depende del caso de uso y de la preferencia del desarrollador.
-
-La estructura actual del repositorio sería la siguiente:
-
-```
-├── package.json (APARTADO A)
-├── pipeline (APARTADO B)
-│   ├── ENABLE-UNIR-CREDENTIALS
-│   │   └── Jenkinsfile
-│   ├── PIPELINE-FULL-CD
-│   │   └── Jenkinsfile
-│   ├── PIPELINE-FULL-PRODUCTION
-│   │   └── Jenkinsfile
-│   └── PIPELINE-FULL-STAGING
-│       └── Jenkinsfile
-├── README.md
-├── serverless.yml (APARTADO A)
-├── terraform (APARTADO B)
-│   ├── configure_environment.sh
-│   ├── main.tf
-│   ├── outputs.tf
-│   ├── resources
-│   │   └── get-ssh-key.sh
-│   ├── variables.tf
-│   └── var.tfvars
-├── test
-│   ├── example
-│   │   ├── README.md
-│   │   ├── TestToDo.py
-│   │   ├── ToDoCreateTable.py
-│   │   ├── ToDoDeleteItem.py
-│   │   ├── ToDoGetItem.py
-│   │   ├── ToDoListItems.py
-│   │   ├── ToDoPutItem.py
-│   │   └── ToDoUpdateItem.py
-│   ├── integration
-│   └── unit
-└── todos
-    ├── create.py
-    ├── decimalencoder.py
-    ├── delete.py
-    ├── get.py
-    ├── __init__.py
-    ├── list.py
-    ├── todoTableClass.py
-    └── update.py
+- Serverless: Crear cuenta en la web de [serverless](https://app.serverless.com/).
+- Github: Una cuenta personal para guardar el repositorio.
+- Python3.8: Intalar python version 3.8
+```bash
+sudo yum install gcc openssl-devel bzip2-devel libffi-devel
+cd /opt
+sudo wget https://www.python.org/ftp/python/3.8.2/Python-3.8.2.tgz
+sudo tar xzf Python-3.8.2.tgz
+cd Python-3.8.2
+sudo ./configure --enable-optimizations
+sudo make altinstall
 ```
 
-Directorios a tener en cuenta:
-
-- pipeline: en este directorio el alumno deberá de persistir los ficheros Jenkinsfile que desarrolle durante la práctica. Si bien es cierto que es posible que no se puedan usar directamente usando los plugins de Pipeline por las limitaciones de la cuenta de AWS, si es recomendable copiar los scripts en groovy en esta carpeta para su posterior corrección. Se ha dejado el esqueleto de uno de los pipelines a modo de ayuda, concretamente el del pipeline de PIPELINE-FULL-STAGING.
-- test: en este directorio se almacenarán las pruebas desarrolladas para el caso práctico. A COMPLETAR POR EL ALUMNO
-- terraform: en este directorio se almacenan los scripts necesarios para levantar la infraestructura necesaria para el apartado B de la práctica. Para desplegar el contexto de Jenkins se ha de ejecutar el script de bash desde un terminal de linux (preferiblemente en la instancia de Cloud9). Durante el despliegue de la infraestructura, se solicitará la IP del equipo desde donde se va a conectar al servidor de Jenkins. Puedes consultarla previamente aquí: [cualesmiip.com](https://cualesmiip.com)
 - todos: en este directorio se almacena el código fuente de las funciones lambda con las que se va a trabajar
 
 ## Casos de uso

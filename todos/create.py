@@ -18,7 +18,7 @@ def create(event, context):
     # constructor
     create = todoTable(tablename, dynamodb)
     # call function put_todo  with two results
-    item, response = create.put_todo(data['text'], None)
+    item, res = create.put_todo(data['text'], None)
     # create a response
     response = {
         "statusCode": 200,
