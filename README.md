@@ -104,3 +104,45 @@ y accediendo a la url nos loguea para poder integrarnos.
 A partir de aquí debemos configurar las settings de serverless para aurtomatizar git - lambda - serverless
 
 
+## Test Local
+
+Para ejecutar el test local, instalamos los requerimientos requeriments.txt. Podemos hacerlos virtualizados, pero eso lo tenemos en la siguiente parte de la práctica
+```bash
+ pip install -r todo-list-serverless/requirements.txt
+```
+
+Ejecutar un docker local para simular dynamodb
+```bash
+ docker run  -p 8000:8000 amazon/dynamodb-local
+```
+Y ejecutar el test unitario:
+```bash
+pytest test/unit/TestToDo.py -v
+
+========================================================== test session starts ==============================================
+platform linux -- Python 3.7.9, pytest-6.2.4, py-1.10.0, pluggy-0.13.1 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/ec2-user/environment/todo-list-serveless
+plugins: cov-2.12.0
+collected 2 items                                                                                                                       
+
+test/unit/TestToDo.py::TestDatabaseFunctions::test_put_todo_local PASSED                                                [ 50%]
+test/unit/TestToDo.py::TestDatabaseFunctions::test_put_todo_mock PASSED                                                 [100%]
+```
+
+Y los otros test:
+```bash
+#calidad de codigo
+flake8 todos/*.py
+# complejidad CC
+radon cc todos/*.py -as
+# seguridad
+bandit todos/*.py -v
+```
+
+Borrar todos los dockers:
+
+```bash
+docker rm -vf $(docker ps -a -q)
+docker rmi -f $(docker images -a -q)
+```
