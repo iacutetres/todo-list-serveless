@@ -100,3 +100,7 @@ Serverless: Logging you in via your default browser...
 Serverless: If your browser does not open automatically, please open the URL: https://app.serverless.com?client=cli&transactionId=*****************
 ```
 y accediendo a la url nos loguea para poder integrarnos.
+
+A partir de aquí debemos configurar las settings de serverless para aurtomatizar git - lambda - serverless
+
+
